@@ -1,6 +1,6 @@
 # UsedCarPrice_Prediction
     利用机器学习算法预测二手车价格
-    最佳分数566.48，排名452
+    最佳分数532.37，排名392
 
 ## 项目介绍
 ### 背景：
@@ -55,3 +55,6 @@
 	data_regression.py	建模、调参、预测
 	scores_of_models.png	各模型MAE分数（数据集train:test=7:3）
 	submission.csv		预测结果文件
+## Acknowledgement
+	Caliton University
+
