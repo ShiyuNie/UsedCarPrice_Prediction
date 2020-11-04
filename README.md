@@ -47,14 +47,11 @@
         
 ## 文件说明
 ---
-    UCRecord.txt                        数据分析记录文件
-    /data/*.csv                         大赛提供的原始数据
-    /user_data/*.csv                    清洗后数据
-    data_prepro.py                      数据预处理、清洗
-    /figures/*.png,*.pdf                数据分布图、相关性图等
-    data_regression.py                  建模、调参、预测
-    scores_of_models.png		各模型MAE分数（数据集train:test=7:3）
-    submission.csv                      预测结果文件
- 
-		
-		
+	UCRecord.txt		数据分析记录文件
+	/data/.csv		大赛提供的数据
+	/user_data/.csv		清洗后数据
+	data_prepro.py		数据预处理、清洗
+	/figures/.png,.pdf	数据分布图、相关性图等
+	data_regression.py	建模、调参、预测
+	scores_of_models.png	各模型MAE分数（数据集train:test=7:3）
+	submission.csv		预测结果文件
