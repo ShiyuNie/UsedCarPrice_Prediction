@@ -53,6 +53,7 @@
     data_prepro.py                      数据预处理、清洗
     /figures/*.png,*.pdf                数据分布图、相关性图等
     data_regression.py                  建模、调参、预测
+    scores_of_models.png		各模型MAE分数（数据集train:test=7:3）
     submission.csv                      预测结果文件
  
 		
