@@ -485,6 +485,31 @@ if __name__ == "__main__":
 	Merge_feat['usedyear'] = usedyear
 	Merge_feat.drop(['regDate'],axis=1,inplace=True)
 
+	# 地区代码--城市
+	Merge_feat['city'] = Merge_feat['regionCode'].apply(lambda x : str(x)[:-3])
+	#print(Merge_feat['city'].value_counts())
+	Merge_feat['city'].replace('',0,inplace=True)
+	Merge_feat['city'].replace('1',1,inplace=True)
+	Merge_feat['city'].replace('2',2,inplace=True)
+	Merge_feat['city'].replace('3',3,inplace=True)
+	Merge_feat['city'].replace('4',4,inplace=True)
+	Merge_feat['city'].replace('5',5,inplace=True)
+	Merge_feat['city'].replace('6',6,inplace=True)
+	Merge_feat['city'].replace('7',7,inplace=True)
+	Merge_feat['city'].replace('8',8,inplace=True)
+	#print(Merge_feat['city'])
+	Merge_feat.drop(['regionCode'], axis=1, inplace=True)
+
+	'''
+	# power分桶
+	power_bin = [i*10 for i in range(-1,101)]
+	Merge_feat['power_bin'] = pd.cut(Merge_feat['power'], power_bin, labels=False)
+	Merge_feat['power_bin'] = Merge_feat['power_bin'].fillna(-1)
+	#print(Merge_feat['power_bin'].value_counts())
+	#print(Merge_feat['power_bin'].isnull().sum())
+	Merge_feat.drop(['power'], axis=1, inplace=True)'''
+
+
 	# 所有数据保留3位小数
 	#Merge_feat = Merge_feat.round(3)
 	#lookinto_data(Merge_feat)
@@ -501,8 +526,8 @@ if __name__ == "__main__":
 	test.reset_index(drop=True)
 
 	# 输出清洗后数据
-	data.to_csv('train_clean.csv', index=True, header=True, encoding='utf_8') # Chinese 'utf_8_sig'
-	test.to_csv('test_clean.csv', index=True, header=True, encoding='utf_8') # Chinese 'utf_8_sig'
+	#data.to_csv('train_clean.csv', index=True, header=True, encoding='utf_8') # Chinese 'utf_8_sig'
+	#test.to_csv('test_clean.csv', index=True, header=True, encoding='utf_8') # Chinese 'utf_8_sig'
 	# 打印出将要输出文件中的前五行记录
 	#print(data[:5].to_csv())
 
@@ -618,14 +643,14 @@ if __name__ == "__main__":
 	MAE = mean_absolute_error(y, y_predict)
 	#print(MAE)	# 0.24621257092907017
 	fi = GBR_best.feature_importances_
-	#print(GBR_best.feature_importances_)
-	'''[1.05527997e-03 3.37936565e-04 7.29032416e-04 4.63131802e-04
-	 6.24771253e-05 4.51477052e-04 2.91927948e-02 1.86100098e-02
-	 5.29207264e-03 3.65525662e-05 2.34776032e-05 2.13330920e-01
-	 3.52940072e-03 1.23078562e-02 1.65955597e-01 1.34391887e-03
-	 1.21355687e-02 1.51494427e-02 2.69971851e-03 6.26575779e-02
-	 2.14799364e-03 6.10062310e-02 1.34141227e-02 2.64600819e-01
-	 7.14602275e-04 3.77171765e-03 1.08980270e-01]'''
+	#print(x.columns,fi)
+	'''[3.66876071e-04 2.71546026e-04 6.24434808e-04 1.73743709e-02
+	 1.89004652e-04 2.32499062e-04 1.32042817e-02 7.10873436e-03
+	 3.50526613e-03 1.79995722e-05 1.61084744e-01 7.97353655e-03
+	 6.43605477e-02 1.88009740e-01 8.07965122e-04 4.19280520e-02
+	 2.28574962e-02 1.89478855e-03 6.91733441e-02 2.08851506e-03
+	 5.09696365e-02 2.11520601e-02 2.19072926e-01 5.25631771e-04
+	 2.16569787e-03 1.03008962e-01 3.13426934e-05]'''
 
 
 
@@ -704,7 +729,7 @@ if __name__ == "__main__":
 	#print(Merge_feat['kilometer'].value_counts())	'''
 
 	# 去除低重要性特征
-	Merge_feat.drop(['regionCode','creatDate'], axis=1, inplace=True)	# 去除低重要性特征：regionCode，creatDate
+	Merge_feat.drop(['creatDate','city'], axis=1, inplace=True)	# 去除低重要性特征：creatDate,city
 	#print(Merge_feat.columns)
 
 	cols = Merge_feat.columns
@@ -727,6 +752,7 @@ if __name__ == "__main__":
 	qt = QuantileTransformer(output_distribution='normal', random_state=0)
 	for i in con_cols:
 		Merge_feat[i] = qt.fit_transform(Merge_feat[i].values.reshape(-1, 1))
+	'''
 	# PCA降维v系列
 	X = Merge_feat[v_cols]
 	pca = PCA(n_components=7)		# 降到7维 (copy=True, n_components=7, whiten=False)
@@ -739,7 +765,7 @@ if __name__ == "__main__":
 	Merge_v = pd.DataFrame(newX, index=None, columns=x_cols)
 	Merge_feat = pd.concat([Merge_feat,Merge_v],axis=1)
 	Merge_feat = Merge_feat.drop(v_cols,axis=1)
-	#print(Merge_feat.columns)
+	#print(Merge_feat.columns)'''
 
 	# 离散数据dummy
 	# dummy:	body,fuel,gear,notrepairdamage,km
